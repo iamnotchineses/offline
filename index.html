@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오프라인 재고 정체 현황 보고</title>
+<meta name="description" content="오프라인(백화점·위탁) 재고 체류일과 회수 정책 기준 현황 리포트. 기준일 2026-08-05.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="오프라인 재고 정체 현황">
+<meta property="og:description" content="45일 초과 정체 75%, 오프 비중 50% 초과 1,742개 모델. 회수 정책 기준 현황 리포트.">
+<meta name="theme-color" content="#131A22">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23131A22'/%3E%3Crect x='7' y='19' width='18' height='5' rx='1' fill='%231F6F5C'/%3E%3Crect x='7' y='12' width='18' height='5' rx='1' fill='%23D5843A'/%3E%3Crect x='7' y='5' width='18' height='5' rx='1' fill='%23B8442C'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+:root{
+  --ink:#131A22; --paper:#E9EDF0; --card:#fff; --mut:#63707E; --rule:#D3DBE1;
+  --hot:#B8442C; --cool:#1F6F5C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Pretendard Variable',Pretendard,-apple-system,'Malgun Gothic','맑은 고딕',sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1080px;margin:0 auto;padding:44px 28px 90px}
+.n,.num{font-variant-numeric:tabular-nums}
+h1{font-size:40px;font-weight:800;letter-spacing:-.035em;line-height:1.12;margin:14px 0 0}
+h2{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--mut);margin:0 0 4px}
+h3{font-size:23px;font-weight:750;letter-spacing:-.03em;margin:0 0 6px}
+p{margin:0}
+.eyebrow{display:flex;gap:10px;align-items:center;font-size:12px;letter-spacing:.18em;
+  font-weight:700;color:var(--hot)}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--hot)}
+.meta{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule);display:flex;
+  flex-wrap:wrap;gap:26px;font-size:12.5px;color:var(--mut)}
+.meta b{color:var(--ink);font-weight:650}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin-top:30px}
+.kpi{background:var(--card);padding:20px 20px 18px}
+.kpi .k{font-size:11.5px;color:var(--mut);font-weight:650;letter-spacing:.02em}
+.kpi .v{font-size:33px;font-weight:800;letter-spacing:-.045em;margin-top:8px;line-height:1}
+.kpi .v span{font-size:15px;font-weight:650;margin-left:2px;letter-spacing:0}
+.kpi .s{font-size:12px;color:var(--mut);margin-top:8px}
+.kpi.alarm .v{color:var(--hot)}
+
+section{margin-top:52px}
+.shead{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);
+  padding-bottom:10px;margin-bottom:22px}
+.shead .idx{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--hot);
+  border:1.5px solid var(--hot);padding:2px 7px;border-radius:2px;flex:none}
+.shead p{font-size:13.5px;color:var(--mut);margin-left:auto;text-align:right;max-width:44%}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:24px 26px}
+
+.stack{display:flex;height:100%;width:100%;overflow:hidden;border-radius:2px}
+.seg{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;
+  font-size:11.5px;font-weight:700}
+.master{height:62px;position:relative}
+.master .stack{height:62px}
+.mark{position:absolute;top:-9px;bottom:-9px;width:2px;background:var(--ink)}
+.mark b{position:absolute;top:-21px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:11px;font-weight:750;background:var(--ink);color:#fff;padding:2px 7px;border-radius:2px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-size:12px;color:var(--mut)}
+.lg{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.lg i{width:11px;height:11px;border-radius:2px;display:block;flex:none}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-size:11.5px;letter-spacing:.06em;color:var(--mut);font-weight:650;text-align:left;
+  padding:0 10px 9px;border-bottom:1px solid var(--rule)}
+td{padding:9px 10px;border-bottom:1px solid #EDF1F4}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.over td{background:#FCF3EF;font-weight:650}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:9px}
+.red{color:var(--hot);font-weight:700}
+td.bar{position:relative;width:42%}
+td.bar span{display:block;height:9px;background:var(--ink);border-radius:1px}
+td.bar em{font-style:normal;font-size:12.5px;color:var(--mut);
+  font-variant-numeric:tabular-nums;display:block;margin-top:3px}
+
+.srow{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:center;
+  padding:11px 0;border-bottom:1px solid #EDF1F4}
+.srow:last-child{border-bottom:0}
+.sname{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.srow.hot .sname{color:var(--hot);font-weight:750}
+.srow.hot .sname::after{content:"정체";font-size:10px;margin-left:7px;border:1px solid var(--hot);
+  padding:1px 5px;border-radius:2px;vertical-align:2px;font-weight:700}
+.sbar .stack{height:17px}
+.sfoot{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);
+  margin-top:5px;font-variant-numeric:tabular-nums}
+.sfoot .avg{font-weight:600}
+.srow.hot .sfoot .avg{color:var(--hot)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.nscards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.nsc.key{border:1.5px solid var(--hot);background:#FDF6F3}
+.nsc{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--hot);
+  border-radius:3px;padding:20px 22px}
+.nsk{font-size:12px;color:var(--mut);font-weight:650}
+.nsv{font-size:38px;font-weight:800;letter-spacing:-.05em;margin:6px 0 12px;line-height:1;color:var(--hot)}
+.nsv span{font-size:16px;margin-left:2px;letter-spacing:0}
+.nsgauge{height:7px;background:#EAEFF2;border-radius:4px;overflow:hidden}
+.nsgauge span{display:block;height:100%;background:var(--hot)}
+.nsm{font-size:12px;color:var(--mut);margin-top:9px;font-variant-numeric:tabular-nums}
+
+.cmp{display:flex;gap:0;margin-top:6px}
+.cmpbar{flex:1}
+.cmpbar .t{font-size:12.5px;color:var(--mut);font-weight:650;margin-bottom:8px}
+.track{height:30px;background:#EAEFF2;border-radius:2px;overflow:hidden;position:relative}
+.track i{display:block;height:100%;background:var(--ink)}
+.track.hot i{background:var(--hot)}
+.track b{position:absolute;top:0;height:30px;line-height:30px;left:12px;color:#fff;
+  font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.cmpbar .m{font-size:12px;color:var(--mut);margin-top:7px;font-variant-numeric:tabular-nums}
+
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);
+  border:1px solid var(--rule)}
+.fact{background:var(--card);padding:22px 24px}
+.fact .v{font-size:29px;font-weight:800;letter-spacing:-.04em;line-height:1.05}
+.fact .v small{font-size:14px;font-weight:650;letter-spacing:0}
+.fact .k{font-size:13px;font-weight:650;margin-top:8px}
+.fact .s{font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.55}
+
+.prin{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+.pr{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ink);
+  border-radius:3px;padding:22px 24px}
+.prno{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--mut)}
+.prt{font-size:20px;font-weight:750;letter-spacing:-.03em;margin:6px 0 8px;line-height:1.35}
+.prt u{text-decoration:none;box-shadow:inset 0 -.5em 0 rgba(184,68,44,.18)}
+.prd{font-size:13px;color:var(--mut);line-height:1.6}
+.prstat{margin-top:16px;border-top:1px solid var(--rule);padding-top:13px;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.prstat span{font-size:11px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--hot);
+  padding:2px 7px;border-radius:2px}
+.prstat b{font-size:19px;font-weight:800;letter-spacing:-.03em;color:var(--hot);
+  font-variant-numeric:tabular-nums}
+.prstat em{font-style:normal;font-size:12px;color:var(--mut);width:100%;
+  font-variant-numeric:tabular-nums}
+.pol{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pcard{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:22px 24px 20px;display:flex;flex-direction:column}
+.pno{font-size:11.5px;font-weight:800;letter-spacing:.12em;color:var(--hot)}
+.pttl{font-size:19px;font-weight:750;letter-spacing:-.028em;margin:5px 0 14px}
+ul.prule{list-style:none;padding:0;margin:0;flex:1}
+ul.prule li{position:relative;padding:0 0 11px 15px;font-size:13.5px;line-height:1.62;
+  color:#2A3540}
+ul.prule li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:2px;
+  background:var(--hot)}
+ul.prule b{font-weight:700;color:var(--ink)}
+.pnote{font-size:11.5px;color:var(--mut);line-height:1.6;border-top:1px dashed var(--rule);
+  padding-top:11px;margin-top:4px}
+.pimp{margin-top:14px;border-top:1px solid var(--rule);padding-top:12px}
+.pimp div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:4px 0;font-size:12.5px}
+.pimp span{color:var(--mut)}
+.pimp b{font-weight:750;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pimp .hotv b{color:var(--hot)}
+
+.tl{margin-top:18px;background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:22px 24px}
+.tlbar{display:grid;grid-template-columns:1.6fr 1.1fr 1.1fr 1.2fr;gap:2px}
+.tseg{padding:12px 14px;border-radius:2px}
+.tseg b{display:block;font-size:14px;font-weight:750;letter-spacing:-.02em}
+.tseg span{font-size:12px;display:block;margin-top:3px;opacity:.85}
+.tseg.s1{background:#E7EEF0;color:#223A38}
+.tseg.s2{background:#F2E9CE;color:#5C4E18}
+.tseg.s3{background:#F6DCC4;color:#7A4413}
+.tseg.s4{background:var(--hot);color:#fff}
+.tlnote{font-size:12px;color:var(--mut);margin-top:12px}
+
+ol.act{counter-reset:a;list-style:none;padding:0;margin:0}
+ol.act li{counter-increment:a;position:relative;padding:16px 0 16px 52px;
+  border-bottom:1px solid #EDF1F4}
+ol.act li:last-child{border-bottom:0}
+ol.act li::before{content:counter(a,decimal-leading-zero);position:absolute;left:0;top:16px;
+  font-size:12px;font-weight:800;color:var(--hot);border:1.5px solid var(--hot);
+  width:29px;height:29px;display:flex;align-items:center;justify-content:center;border-radius:2px}
+ol.act b{display:block;font-size:16px;font-weight:700;letter-spacing:-.02em}
+ol.act span{font-size:13.5px;color:var(--mut)}
+
+.note{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+  font-size:12px;color:var(--mut);line-height:1.75}
+
+@media(max-width:840px){
+  .kpis,.nscards,.split,.facts,.pol,.prin{grid-template-columns:1fr}
+  .tlbar{grid-template-columns:1fr}
+  .srow{grid-template-columns:1fr;gap:7px}
+  h1{font-size:29px} .shead p{display:none}
+}
+@media print{
+  body{background:#fff} .wrap{padding:0;max-width:100%}
+  section{break-inside:avoid;margin-top:28px}
+}
+
+.dl{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:9px 15px;
+  border:1.5px solid var(--ink);border-radius:2px;font-size:12.5px;font-weight:700;
+  color:var(--ink);text-decoration:none;background:#fff}
+.dl:hover{background:var(--ink);color:#fff}
+.dl:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+.dl::before{content:"↓";font-weight:800}
+@media print{.dl{display:none}}
+</style></head><body><div class="wrap">
+
+<header>
+  <div class="eyebrow">재고 운영 리포트</div>
+  <h1>오프라인 재고 정체 현황</h1>
+  <div class="meta">
+    <span>기준일 <b>2026-08-05</b></span>
+    <span>대상 매장 <b>24개</b></span>
+    <span>오프라인 재고 <b>21,837개 / 31.3억원</b></span>
+    <span>출처 <b>오프라인_재고비중.xlsx · 재고위치.xlsx</b></span>
+  </div>
+  <a class="dl" href="offline-inventory-report.pdf" download>PDF 내려받기</a>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><div class="k">오프라인 재고 금액</div>
+    <div class="v">31.3<span>억원</span></div>
+    <div class="s">전체 재고 313.9억원의 10.0%</div></div>
+  <div class="kpi alarm"><div class="k">평균 체류일</div>
+    <div class="v">144<span>일</span></div>
+    <div class="s">중앙값 114일 · 최장 770일</div></div>
+  <div class="kpi alarm"><div class="k">45일 초과 정체</div>
+    <div class="v">75<span>%</span></div>
+    <div class="s">금액 7.6억원 · 1,695개</div></div>
+  <div class="kpi alarm"><div class="k">오프 비중 50% 초과</div>
+    <div class="v">1,742<span>개 모델</span></div>
+    <div class="s">7,020개 · 13.1억원이 원칙 초과 상태</div></div>
+</div>
+
+<div class="prin">
+  <div class="pr">
+    <div class="prno">원칙 1</div>
+    <div class="prt">오프라인 재고 비중은 <u>50%를 넘지 않는다</u></div>
+    <div class="prd">한 상품의 재고 절반 이상이 매장에 나가 있으면 온라인 판매·행사 대응이 불가능해집니다.</div>
+    <div class="prstat bad">
+      <span>현재</span>
+      <b>1,742개 모델 위반</b>
+      <em>7,020개 · 13.1억원 · 오프라인 보유 모델 5,663개의 31%</em>
+    </div>
+  </div>
+  <div class="pr">
+    <div class="prno">원칙 2</div>
+    <div class="prt"><u>45일 미판매</u> 재고는 회수한다</div>
+    <div class="prd">매장 입고 후 45일간 판매가 없으면 회수 대상으로 전환하고, 매대는 대체 상품으로 채웁니다.</div>
+    <div class="prstat bad">
+      <span>현재</span>
+      <b>1,695개 위반</b>
+      <em>7.6억원 · 추적 재고의 74% · 19개 매장에 분포</em>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="shead"><span class="idx">A</span><h3>수량은 6%, 금액은 10%</h3>
+    <p>단가가 높은 상품일수록 오프라인에 배치되어, 정체가 곧 자금 묶임으로 이어집니다.</p></div>
+  <div class="card">
+    <div class="split">
+      <div class="cmpbar"><div class="t">수량 기준 오프라인 비중</div>
+        <div class="track"><i style="width:23.1%"></i><b>5.8%</b></div>
+        <div class="m">21,837개 / 전체 377,585개 &nbsp;·&nbsp; 막대 축 최대 25%</div></div>
+      <div class="cmpbar"><div class="t">금액 기준 오프라인 비중</div>
+        <div class="track hot"><i style="width:39.9%"></i><b>10.0%</b></div>
+        <div class="m">31.3억원 / 전체 313.9억원 &nbsp;·&nbsp; 막대 축 최대 25%</div></div>
+    </div>
+    <div class="m" style="font-size:12.5px;color:var(--mut);margin-top:18px;
+      border-top:1px solid #EDF1F4;padding-top:14px">
+      오프라인 재고의 단가는 평균 143,529원으로, 전체 평균
+      83,146원의 약 1.7배입니다.
+      금액의 85%가 브랜드패션에 집중되어 있습니다.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">B</span><h3>74%가 45일을 넘겼습니다</h3>
+    <p>매장 입고일 기준 경과일. 위치가 추적되는 2,305개
+    (10.1억원, 오프라인 금액의 32%) 대상.</p></div>
+  <div class="card">
+    <div class="master">
+      <div class="stack"><div class="seg" style="width:26.464%;background:#1F6F5C" title="45일 이하 · 610개"><b>610</b></div><div class="seg" style="width:14.794%;background:#B9A544" title="46~90일 · 341개"><b>341</b></div><div class="seg" style="width:34.881%;background:#D5843A" title="91~180일 · 804개"><b>804</b></div><div class="seg" style="width:16.790%;background:#B8442C" title="181~365일 · 387개"><b>387</b></div><div class="seg" style="width:6.811%;background:#7E2A22" title="1~2년 · 157개"></div><div class="seg" style="width:0.260%;background:#4A1512" title="2년 이상 · 6개"></div></div>
+      <div class="mark" style="left:26.46%"><b>45일 경계 · 회수 기준</b></div>
+    </div>
+    <div class="legend"><span class="lg"><i style="background:#1F6F5C"></i>45일 이하</span><span class="lg"><i style="background:#B9A544"></i>46~90일</span><span class="lg"><i style="background:#D5843A"></i>91~180일</span><span class="lg"><i style="background:#B8442C"></i>181~365일</span><span class="lg"><i style="background:#7E2A22"></i>1~2년</span><span class="lg"><i style="background:#4A1512"></i>2년 이상</span></div>
+    <table style="margin-top:24px">
+      <thead><tr><th>체류 구간</th><th class="n">수량</th><th class="n">수량 비중</th>
+        <th class="n">금액</th><th class="n">금액 비중</th></tr></thead>
+      <tbody><tr class=""><td><i class="dot" style="background:#1F6F5C"></i>45일 이하</td><td class="n">610</td><td class="n">26.5%</td><td class="n">2.5억</td><td class="n">24.6%</td></tr><tr class="over"><td><i class="dot" style="background:#B9A544"></i>46~90일</td><td class="n">341</td><td class="n">14.8%</td><td class="n">1.4억</td><td class="n">13.7%</td></tr><tr class="over"><td><i class="dot" style="background:#D5843A"></i>91~180일</td><td class="n">804</td><td class="n">34.9%</td><td class="n">3.5억</td><td class="n">34.1%</td></tr><tr class="over"><td><i class="dot" style="background:#B8442C"></i>181~365일</td><td class="n">387</td><td class="n">16.8%</td><td class="n">1.9억</td><td class="n">18.9%</td></tr><tr class="over"><td><i class="dot" style="background:#7E2A22"></i>1~2년</td><td class="n">157</td><td class="n">6.8%</td><td class="n">0.84억</td><td class="n">8.3%</td></tr><tr class="over"><td><i class="dot" style="background:#4A1512"></i>2년 이상</td><td class="n">6</td><td class="n">0.3%</td><td class="n">0.03억</td><td class="n">0.3%</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">C</span><h3>매장별 정체 강도</h3>
+    <p>같은 규모라도 매장에 따라 회전 속도가 크게 갈립니다.</p></div>
+  <div class="card"><div class="srow warm"><div class="sname">롯데쇼핑 이천점</div><div class="sbar"><div class="stack"><div class="seg" style="width:36.000%;background:#1F6F5C" title="45일 이하 · 225개"></div><div class="seg" style="width:15.520%;background:#B9A544" title="46~90일 · 97개"></div><div class="seg" style="width:26.400%;background:#D5843A" title="91~180일 · 165개"></div><div class="seg" style="width:14.400%;background:#B8442C" title="181~365일 · 90개"></div><div class="seg" style="width:7.680%;background:#7E2A22" title="1~2년 · 48개"></div></div><div class="sfoot"><span>625개 · 4.7억</span><span class="avg">평균 126일 · 45일 초과 64%</span></div></div></div><div class="srow hot"><div class="sname">롯데백화점 일산점</div><div class="sbar"><div class="stack"><div class="seg" style="width:7.989%;background:#1F6F5C" title="45일 이하 · 29개"></div><div class="seg" style="width:7.438%;background:#B9A544" title="46~90일 · 27개"></div><div class="seg" style="width:26.997%;background:#D5843A" title="91~180일 · 98개"></div><div class="seg" style="width:38.017%;background:#B8442C" title="181~365일 · 138개"></div><div class="seg" style="width:17.906%;background:#7E2A22" title="1~2년 · 65개"></div><div class="seg" style="width:1.653%;background:#4A1512" title="2년 이상 · 6개"></div></div><div class="sfoot"><span>363개 · 1.8억</span><span class="avg">평균 249일 · 45일 초과 92%</span></div></div></div><div class="srow warm"><div class="sname">롯데백화점 구리점</div><div class="sbar"><div class="stack"><div class="seg" style="width:21.577%;background:#1F6F5C" title="45일 이하 · 52개"></div><div class="seg" style="width:19.502%;background:#B9A544" title="46~90일 · 47개"></div><div class="seg" style="width:31.950%;background:#D5843A" title="91~180일 · 77개"></div><div class="seg" style="width:20.747%;background:#B8442C" title="181~365일 · 50개"></div><div class="seg" style="width:6.224%;background:#7E2A22" title="1~2년 · 15개"></div></div><div class="sfoot"><span>241개 · 1.1억</span><span class="avg">평균 144일 · 45일 초과 78%</span></div></div></div><div class="srow hot"><div class="sname">대백프라자</div><div class="sbar"><div class="stack"><div class="seg" style="width:5.634%;background:#1F6F5C" title="45일 이하 · 12개"></div><div class="seg" style="width:18.310%;background:#B9A544" title="46~90일 · 39개"></div><div class="seg" style="width:41.784%;background:#D5843A" title="91~180일 · 89개"></div><div class="seg" style="width:27.700%;background:#B8442C" title="181~365일 · 59개"></div><div class="seg" style="width:6.573%;background:#7E2A22" title="1~2년 · 14개"></div></div><div class="sfoot"><span>213개 · 0.79억</span><span class="avg">평균 162일 · 45일 초과 94%</span></div></div></div><div class="srow "><div class="sname">더현대서울(피어)</div><div class="sbar"><div class="stack"><div class="seg" style="width:94.697%;background:#1F6F5C" title="45일 이하 · 125개"></div><div class="seg" style="width:5.303%;background:#B8442C" title="181~365일 · 7개"></div></div><div class="sfoot"><span>132개 · 0.02억</span><span class="avg">평균 37일 · 45일 초과 5%</span></div></div></div><div class="srow hot"><div class="sname">현대백화점신촌점</div><div class="sbar"><div class="stack"><div class="seg" style="width:1.802%;background:#1F6F5C" title="45일 이하 · 2개"></div><div class="seg" style="width:14.414%;background:#B9A544" title="46~90일 · 16개"></div><div class="seg" style="width:73.874%;background:#D5843A" title="91~180일 · 82개"></div><div class="seg" style="width:7.207%;background:#B8442C" title="181~365일 · 8개"></div><div class="seg" style="width:2.703%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>111개 · 0.29억</span><span class="avg">평균 111일 · 45일 초과 98%</span></div></div></div><div class="srow warm"><div class="sname">커넥트현대 부산점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:22.472%;background:#1F6F5C" title="45일 이하 · 20개"></div><div class="seg" style="width:24.719%;background:#B9A544" title="46~90일 · 22개"></div><div class="seg" style="width:49.438%;background:#D5843A" title="91~180일 · 44개"></div><div class="seg" style="width:3.371%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>89개 · 0.29억</span><span class="avg">평균 102일 · 45일 초과 78%</span></div></div></div><div class="srow hot"><div class="sname">현대백화점천호점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:10.938%;background:#1F6F5C" title="45일 이하 · 7개"></div><div class="seg" style="width:37.500%;background:#B9A544" title="46~90일 · 24개"></div><div class="seg" style="width:35.938%;background:#D5843A" title="91~180일 · 23개"></div><div class="seg" style="width:10.938%;background:#B8442C" title="181~365일 · 7개"></div><div class="seg" style="width:4.688%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>64개 · 0.28억</span><span class="avg">평균 114일 · 45일 초과 89%</span></div></div></div><div class="srow hot"><div class="sname">현대아울렛 가산점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:1.639%;background:#1F6F5C" title="45일 이하 · 1개"></div><div class="seg" style="width:14.754%;background:#B9A544" title="46~90일 · 9개"></div><div class="seg" style="width:68.852%;background:#D5843A" title="91~180일 · 42개"></div><div class="seg" style="width:9.836%;background:#B8442C" title="181~365일 · 6개"></div><div class="seg" style="width:4.918%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>61개 · 0.13억</span><span class="avg">평균 143일 · 45일 초과 98%</span></div></div></div><div class="srow "><div class="sname">현대프리미엄아울렛 대전점(오프웍스)</div><div class="sbar"><div class="stack"><div class="seg" style="width:61.017%;background:#1F6F5C" title="45일 이하 · 36개"></div><div class="seg" style="width:38.983%;background:#B9A544" title="46~90일 · 23개"></div></div><div class="sfoot"><span>59개 · 0.07억</span><span class="avg">평균 45일 · 45일 초과 39%</span></div></div></div><div class="srow warm"><div class="sname">현대시티아울렛 동대문점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:30.909%;background:#1F6F5C" title="45일 이하 · 17개"></div><div class="seg" style="width:10.909%;background:#B9A544" title="46~90일 · 6개"></div><div class="seg" style="width:54.545%;background:#D5843A" title="91~180일 · 30개"></div><div class="seg" style="width:3.636%;background:#B8442C" title="181~365일 · 2개"></div></div><div class="sfoot"><span>55개 · 0.14억</span><span class="avg">평균 94일 · 45일 초과 69%</span></div></div></div><div class="srow hot"><div class="sname">롯데백화점 탑스 군산점</div><div class="sbar"><div class="stack"><div class="seg" style="width:12.500%;background:#1F6F5C" title="45일 이하 · 6개"></div><div class="seg" style="width:12.500%;background:#B9A544" title="46~90일 · 6개"></div><div class="seg" style="width:75.000%;background:#D5843A" title="91~180일 · 36개"></div></div><div class="sfoot"><span>48개 · 0.10억</span><span class="avg">평균 110일 · 45일 초과 88%</span></div></div></div><div class="srow hot"><div class="sname">롯데백화점 탑스 센텀시티점</div><div class="sbar"><div class="stack"><div class="seg" style="width:2.174%;background:#1F6F5C" title="45일 이하 · 1개"></div><div class="seg" style="width:97.826%;background:#D5843A" title="91~180일 · 45개"></div></div><div class="sfoot"><span>46개 · 0.08억</span><span class="avg">평균 133일 · 45일 초과 98%</span></div></div></div><div class="srow "><div class="sname">현대아울렛 송도점(오프웍스)</div><div class="sbar"><div class="stack"><div class="seg" style="width:100.000%;background:#1F6F5C" title="45일 이하 · 45개"></div></div><div class="sfoot"><span>45개 · 0.05억</span><span class="avg">평균 24일 · 45일 초과 0%</span></div></div></div></div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">D</span><h3>원칙 2 — 45일 미판매 회수 대상</h3>
+    <p>앞 두 장은 전체 오프라인 보유 5,663개 모델의 판매 실적,
+    마지막 장은 매장 체류일 기준 실제 회수 대상입니다.</p></div>
+  <div class="nscards"><div class="nsc"><div class="nsk">최근 7일간 판매 0</div><div class="nsv">22.7<span>억</span></div><div class="nsgauge"><span style="width:41.3%"></span></div><div class="nsm">4,301개 모델 · 9,014개 · 오프라인 수량의 41%</div></div><div class="nsc"><div class="nsk">최근 30일간 판매 0</div><div class="nsv">15.1<span>억</span></div><div class="nsgauge"><span style="width:21.6%"></span></div><div class="nsm">2,907개 모델 · 4,726개 · 오프라인 수량의 22%</div></div><div class="nsc key"><div class="nsk">매장 체류 45일 초과 — 회수 대상</div><div class="nsv">7.6<span>억</span></div><div class="nsgauge"><span style="width:73.5%"></span></div><div class="nsm">1,695개 · 추적 재고의 74% · 19개 매장</div></div></div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">E</span><h3>원칙 1 — 오프 비중 50% 초과 재고</h3>
+    <p>재고 절반 이상이 매장에 나가 있으면 온라인 판매·행사 대응이 불가능합니다.</p></div>
+  <div class="facts">
+    <div class="fact">
+      <div class="v">1,363<small>개 모델</small></div>
+      <div class="k">재고 100%가 오프라인에 있는 모델</div>
+      <div class="s">2,108개 · 8.3억원.
+        온라인 노출·행사가 적용 대상에서 원천 제외됩니다.</div></div>
+    <div class="fact">
+      <div class="v">1,742<small>개 모델</small></div>
+      <div class="k">오프 비중이 50%를 넘는 모델</div>
+      <div class="s">7,020개 · 13.1억원. 라인 기준으로는
+        1,091개 라인이며, 총재고 8,800개 중
+        6,521개(74%)가 매장에 있습니다.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">F</span><h3>브랜드별 묶인 금액</h3>
+    <p>위치 추적 대상 기준 상위 10개 브랜드.</p></div>
+  <div class="card">
+    <table>
+      <thead><tr><th>브랜드</th><th class="n">수량</th><th>재고 금액</th>
+        <th class="n">평균 체류일</th><th class="n">45일 초과</th></tr></thead>
+      <tbody><tr><td>톰브라운</td><td class="n">332</td><td class="bar"><span style="width:100.0%"></span><em>1.8억</em></td><td class="n red">181일</td><td class="n red">93%</td></tr><tr><td>프라다</td><td class="n">97</td><td class="bar"><span style="width:83.6%"></span><em>1.5억</em></td><td class="n red">153일</td><td class="n ">71%</td></tr><tr><td>버버리</td><td class="n">127</td><td class="bar"><span style="width:46.5%"></span><em>0.82억</em></td><td class="n ">116일</td><td class="n ">65%</td></tr><tr><td>생로랑</td><td class="n">70</td><td class="bar"><span style="width:36.2%"></span><em>0.64억</em></td><td class="n red">171일</td><td class="n ">67%</td></tr><tr><td>페라가모</td><td class="n">122</td><td class="bar"><span style="width:31.0%"></span><em>0.55억</em></td><td class="n red">273일</td><td class="n red">95%</td></tr><tr><td>보테가베네타</td><td class="n">70</td><td class="bar"><span style="width:30.5%"></span><em>0.54억</em></td><td class="n red">192일</td><td class="n ">81%</td></tr><tr><td>구찌</td><td class="n">41</td><td class="bar"><span style="width:28.7%"></span><em>0.51억</em></td><td class="n ">114일</td><td class="n ">80%</td></tr><tr><td>스톤아일랜드</td><td class="n">109</td><td class="bar"><span style="width:26.1%"></span><em>0.46억</em></td><td class="n ">68일</td><td class="n ">42%</td></tr><tr><td>몽클레르</td><td class="n">36</td><td class="bar"><span style="width:21.3%"></span><em>0.38억</em></td><td class="n ">19일</td><td class="n ">11%</td></tr><tr><td>펜디</td><td class="n">26</td><td class="bar"><span style="width:12.9%"></span><em>0.23억</em></td><td class="n ">139일</td><td class="n ">73%</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">G</span><h3>오프라인 재고 회수 정책</h3>
+    <p>수량·기간 두 축으로 회수 요건을 정의하고, 대체 상품 입고를 전제로 운영합니다.</p></div>
+
+  <div class="pol">
+    <div class="pcard">
+      <div class="pno">4-1</div>
+      <div class="pttl">수량 기준 회수</div>
+      <ul class="prule">
+        <li><b>가용수량 1개 이하</b> — 위탁 재고, 직영매장 순차 회수</li>
+        <li><b>가용수량 0개</b> — 직영매장 재고 순차 회수</li>
+      </ul>
+      <div class="pnote">기간 기준과 무관하게 즉시 적용 · 회수 순서는 출고일이 오래된 재고부터</div>
+      <div class="pimp">
+        <div><span>가용 1개 이하</span><b>4,716개 · 13.8억</b></div>
+        <div><span>가용 0개</span><b>3,649개 · 10.5억</b></div>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pno">4-2</div>
+      <div class="pttl">기간 기준 회수</div>
+      <ul class="prule">
+        <li><b>45일 연속 미판매</b> — 매니저 검토 요청 자동 발생.
+          7일 이내 유지 / 회수 판단 필수, 미응답 시 자동 회수 프로세스로 전환</li>
+        <li><b>180일 연속 미판매</b> — 가용재고 존재 여부와 무관하게 강제 회수</li>
+      </ul>
+      <div class="pnote">매장 체류일 기준 산정 · 위치 추적 가능 범위 한정</div>
+      <div class="pimp">
+        <div class="hotv"><span>45~179일 (검토 후 회수)</span><b>1,144개 · 4.9억</b></div>
+        <div class="hotv"><span>180일 이상 (강제 회수)</span><b>551개 · 2.8억</b></div>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="pno">4-3</div>
+      <div class="pttl">대체 상품 원칙</div>
+      <ul class="prule">
+        <li>재고 회수는 <b>대체 상품 입고를 전제</b>로 진행</li>
+        <li>대체 상품은 <b>담당자가 결정</b></li>
+        <li><b>7일 유예 기간</b> 제공</li>
+        <li>7일 경과 후 미입고 시 회수 진행 및 <b>담당자 책임</b>으로 처리</li>
+      </ul>
+      <div class="pnote">회수로 비는 매대를 방치하지 않기 위한 전제 조건</div>
+      <div class="pimp">
+        <div><span>정책 적용 시 총 회수 검토 대상</span><b>21.5억 규모</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <div class="tlbar">
+      <div class="tseg s1"><b>0~44일</b><span>정상 운영</span></div>
+      <div class="tseg s2"><b>45일</b><span>매니저 검토 요청 자동 발생</span></div>
+      <div class="tseg s3"><b>+7일</b><span>미응답 시 자동 회수 전환</span></div>
+      <div class="tseg s4"><b>180일</b><span>무조건 강제 회수</span></div>
+    </div>
+    <div class="tlnote">수량 기준(가용 1개 이하)에 해당하면 위 기간과 무관하게 즉시 회수합니다.</div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">H</span><h3>제안</h3></div>
+  <div class="card">
+    <ol class="act">
+      <li><b>180일 이상 551개(2.8억원) 강제 회수 즉시 착수</b>
+        <span>정책 4-2 적용 대상입니다. 회수 후 온라인 행사가 전환 또는 아울렛 이관하고,
+        1년 초과 163개는 처분 대상으로 별도 분류합니다.</span></li>
+      <li><b>가용수량 1개 이하 4,716개(13.8억원) 출고일 순 회수</b>
+        <span>정책 4-1 적용 대상이며 기간과 무관하게 즉시 진행합니다.
+        이 중 가용 0개는 3,649개로, 온라인 주문 대응이 불가능한 상태입니다.</span></li>
+      <li><b>정체율 상위 매장 우선 집행</b>
+        <span>대백프라자(평균 162일, 45일 초과 94%), 롯데백화점 일산점(249일, 92%),
+        현대백화점신촌점(111일, 98%), 롯데백화점 탑스 센텀시티점(133일, 98%)부터 적용합니다.</span></li>
+      <li><b>45일 알림 자동화 및 대체 상품 확인 절차 신설</b>
+        <span>매장 체류 45일 경과 시 검토 요청을 자동 발생시키고, 7일 내 미응답 건은
+        자동 회수로 전환합니다. 대체 상품 미입고 7일 경과 건은 담당자별로 집계해 관리합니다.</span></li>
+    </ol>
+  </div>
+</section>
+
+<div class="note">
+  산출 기준 · 금액은 원가평균 기준입니다. 체류일은 재고위치 자료의 매장 입고 이력에서
+  추출했으며, 한 모델에 복수 입고 이력이 있는 경우 각각을 분리해 집계했습니다
+  (2,305개 / 24개 매장). 오프라인 재고 총량
+  21,837개 가운데 위치·체류일 추적이 가능한 범위는 수량 기준
+  11%, 금액 기준 32%로,
+  체류일·원칙 2 관련 수치는 이 범위에 한합니다. 원칙 2의 '45일 연속 미판매'는 매장별 판매일자
+  로그가 없어 매장 입고 후 경과일(현재까지 판매되지 않고 남아 있는 기간)로 산정했습니다.
+  원칙 1의 오프 비중은 모델 단위 오프라인재고 ÷ 총재고로 계산했으며, 무판매 집계는
+  전체 오프라인 보유 모델을 대상으로 합니다.
+</div>
+
+</div></body></html>
