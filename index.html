@@ -40,7 +40,7 @@ p{margin:0}
 .kpi .s{font-size:12px;color:var(--mut);margin-top:8px}
 .kpi.alarm .v{color:var(--hot)}
 
-section{margin-top:52px}
+section{margin-top:34px}
 .shead{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);
   padding-bottom:10px;margin-bottom:22px}
 .shead .idx{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--hot);
@@ -117,7 +117,15 @@ td.bar em{font-style:normal;font-size:12.5px;color:var(--mut);
 .fact .k{font-size:13px;font-weight:650;margin-top:8px}
 .fact .s{font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.55}
 
-.prin{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+.part{display:flex;align-items:flex-start;gap:16px;margin:64px 0 26px;
+  padding-top:20px;border-top:3px solid var(--ink)}
+.part:first-of-type{margin-top:38px}
+.pnum{font-size:26px;font-weight:800;letter-spacing:-.05em;color:var(--hot);
+  line-height:1;padding-top:2px;font-variant-numeric:tabular-nums;flex:none}
+.pttl2{font-size:25px;font-weight:800;letter-spacing:-.035em;line-height:1.15;
+  color:var(--ink);margin:0}
+.part p{font-size:13px;color:var(--mut);margin-top:6px;max-width:62ch}
+.prin{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .pr{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ink);
   border-radius:3px;padding:22px 24px}
 .prno{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--mut)}
@@ -224,27 +232,9 @@ ol.act span{font-size:13.5px;color:var(--mut)}
     <div class="s">7,020개 · 13.1억원이 원칙 초과 상태</div></div>
 </div>
 
-<div class="prin">
-  <div class="pr">
-    <div class="prno">원칙 1</div>
-    <div class="prt">오프라인 재고 비중은 <u>50%를 넘지 않는다</u></div>
-    <div class="prd">한 상품의 재고 절반 이상이 매장에 나가 있으면 온라인 판매·행사 대응이 불가능해집니다.</div>
-    <div class="prstat bad">
-      <span>현재</span>
-      <b>1,742개 모델 위반</b>
-      <em>7,020개 · 13.1억원 · 오프라인 보유 모델 5,663개의 31%</em>
-    </div>
-  </div>
-  <div class="pr">
-    <div class="prno">원칙 2</div>
-    <div class="prt"><u>45일 미판매</u> 재고는 회수한다</div>
-    <div class="prd">매장 입고 후 45일간 판매가 없으면 회수 대상으로 전환하고, 매대는 대체 상품으로 채웁니다.</div>
-    <div class="prstat bad">
-      <span>현재</span>
-      <b>1,695개 위반</b>
-      <em>7.6억원 · 추적 재고의 74% · 19개 매장에 분포</em>
-    </div>
-  </div>
+<div class="part">
+  <span class="pnum">01</span>
+  <div><h2 class="pttl2">오프라인 재고 현황</h2><p>오프라인에 나가 있는 재고의 규모와 자금 부담.</p></div>
 </div>
 
 <section>
@@ -268,8 +258,47 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   </div>
 </section>
 
+<div class="part">
+  <span class="pnum">02</span>
+  <div><h2 class="pttl2">운영 원칙</h2><p>오프라인 재고 운영의 두 가지 기준.</p></div>
+</div>
+
+<div class="prin">
+  <div class="pr">
+    <div class="prno">원칙 1</div>
+    <div class="prt"><u>45일 미판매</u> 재고는 회수한다</div>
+    <div class="prd">매장 입고 후 45일간 판매가 없으면 회수 대상으로 전환하고, 매대는 대체 상품으로 채웁니다.</div>
+    <div class="prstat bad">
+      <span>현재</span>
+      <b>1,695개 위반</b>
+      <em>7.6억원 · 추적 재고의 74% · 19개 매장에 분포</em>
+    </div>
+  </div>
+  <div class="pr">
+    <div class="prno">원칙 2</div>
+    <div class="prt">오프라인 재고 비중은 <u>50%를 넘지 않는다</u></div>
+    <div class="prd">한 상품의 재고 절반 이상이 매장에 나가 있으면 온라인 판매·행사 대응이 불가능해집니다.</div>
+    <div class="prstat bad">
+      <span>현재</span>
+      <b>1,742개 모델 위반</b>
+      <em>7,020개 · 13.1억원 · 오프라인 보유 모델 5,663개의 31%</em>
+    </div>
+  </div>
+</div>
+
+<div class="part">
+  <span class="pnum">03</span>
+  <div><h2 class="pttl2">원칙 1 위배 — 45일 미판매</h2><p>매장 입고 후 45일이 지나도록 판매되지 않은 재고의 규모, 체류 분포, 매장·브랜드별 편중.</p></div>
+</div>
+
 <section>
-  <div class="shead"><span class="idx">B</span><h3>74%가 45일을 넘겼습니다</h3>
+  <div class="shead"><span class="idx">B</span><h3>45일 초과 회수 대상</h3>
+    <p>매장 입고 후 45일이 지나도록 판매되지 않은 재고입니다.</p></div>
+  <div class="nscards"><div class="nsc key"><div class="nsk">매장 체류 45일 초과 — 회수 대상</div><div class="nsv">7.6<span>억</span></div><div class="nsgauge"><span style="width:73.5%"></span></div><div class="nsm">1,695개 · 추적 재고의 74% · 19개 매장</div></div></div>
+</section>
+
+<section>
+  <div class="shead"><span class="idx">C</span><h3>74%가 45일을 넘겼습니다</h3>
     <p>매장 입고일 기준 경과일. 위치가 추적되는 2,305개
     (10.1억원, 오프라인 금액의 32%) 대상.</p></div>
   <div class="card">
@@ -287,19 +316,30 @@ ol.act span{font-size:13.5px;color:var(--mut)}
 </section>
 
 <section>
-  <div class="shead"><span class="idx">C</span><h3>매장별 정체 강도</h3>
+  <div class="shead"><span class="idx">D</span><h3>매장별 정체 강도</h3>
     <p>같은 규모라도 매장에 따라 회전 속도가 크게 갈립니다.</p></div>
   <div class="card"><div class="srow warm"><div class="sname">롯데쇼핑 이천점</div><div class="sbar"><div class="stack"><div class="seg" style="width:36.000%;background:#1F6F5C" title="45일 이하 · 225개"></div><div class="seg" style="width:15.520%;background:#B9A544" title="46~90일 · 97개"></div><div class="seg" style="width:26.400%;background:#D5843A" title="91~180일 · 165개"></div><div class="seg" style="width:14.400%;background:#B8442C" title="181~365일 · 90개"></div><div class="seg" style="width:7.680%;background:#7E2A22" title="1~2년 · 48개"></div></div><div class="sfoot"><span>625개 · 4.7억</span><span class="avg">평균 126일 · 45일 초과 64%</span></div></div></div><div class="srow hot"><div class="sname">롯데백화점 일산점</div><div class="sbar"><div class="stack"><div class="seg" style="width:7.989%;background:#1F6F5C" title="45일 이하 · 29개"></div><div class="seg" style="width:7.438%;background:#B9A544" title="46~90일 · 27개"></div><div class="seg" style="width:26.997%;background:#D5843A" title="91~180일 · 98개"></div><div class="seg" style="width:38.017%;background:#B8442C" title="181~365일 · 138개"></div><div class="seg" style="width:17.906%;background:#7E2A22" title="1~2년 · 65개"></div><div class="seg" style="width:1.653%;background:#4A1512" title="2년 이상 · 6개"></div></div><div class="sfoot"><span>363개 · 1.8억</span><span class="avg">평균 249일 · 45일 초과 92%</span></div></div></div><div class="srow warm"><div class="sname">롯데백화점 구리점</div><div class="sbar"><div class="stack"><div class="seg" style="width:21.577%;background:#1F6F5C" title="45일 이하 · 52개"></div><div class="seg" style="width:19.502%;background:#B9A544" title="46~90일 · 47개"></div><div class="seg" style="width:31.950%;background:#D5843A" title="91~180일 · 77개"></div><div class="seg" style="width:20.747%;background:#B8442C" title="181~365일 · 50개"></div><div class="seg" style="width:6.224%;background:#7E2A22" title="1~2년 · 15개"></div></div><div class="sfoot"><span>241개 · 1.1억</span><span class="avg">평균 144일 · 45일 초과 78%</span></div></div></div><div class="srow hot"><div class="sname">대백프라자</div><div class="sbar"><div class="stack"><div class="seg" style="width:5.634%;background:#1F6F5C" title="45일 이하 · 12개"></div><div class="seg" style="width:18.310%;background:#B9A544" title="46~90일 · 39개"></div><div class="seg" style="width:41.784%;background:#D5843A" title="91~180일 · 89개"></div><div class="seg" style="width:27.700%;background:#B8442C" title="181~365일 · 59개"></div><div class="seg" style="width:6.573%;background:#7E2A22" title="1~2년 · 14개"></div></div><div class="sfoot"><span>213개 · 0.79억</span><span class="avg">평균 162일 · 45일 초과 94%</span></div></div></div><div class="srow "><div class="sname">더현대서울(피어)</div><div class="sbar"><div class="stack"><div class="seg" style="width:94.697%;background:#1F6F5C" title="45일 이하 · 125개"></div><div class="seg" style="width:5.303%;background:#B8442C" title="181~365일 · 7개"></div></div><div class="sfoot"><span>132개 · 0.02억</span><span class="avg">평균 37일 · 45일 초과 5%</span></div></div></div><div class="srow hot"><div class="sname">현대백화점신촌점</div><div class="sbar"><div class="stack"><div class="seg" style="width:1.802%;background:#1F6F5C" title="45일 이하 · 2개"></div><div class="seg" style="width:14.414%;background:#B9A544" title="46~90일 · 16개"></div><div class="seg" style="width:73.874%;background:#D5843A" title="91~180일 · 82개"></div><div class="seg" style="width:7.207%;background:#B8442C" title="181~365일 · 8개"></div><div class="seg" style="width:2.703%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>111개 · 0.29억</span><span class="avg">평균 111일 · 45일 초과 98%</span></div></div></div><div class="srow warm"><div class="sname">커넥트현대 부산점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:22.472%;background:#1F6F5C" title="45일 이하 · 20개"></div><div class="seg" style="width:24.719%;background:#B9A544" title="46~90일 · 22개"></div><div class="seg" style="width:49.438%;background:#D5843A" title="91~180일 · 44개"></div><div class="seg" style="width:3.371%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>89개 · 0.29억</span><span class="avg">평균 102일 · 45일 초과 78%</span></div></div></div><div class="srow hot"><div class="sname">현대백화점천호점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:10.938%;background:#1F6F5C" title="45일 이하 · 7개"></div><div class="seg" style="width:37.500%;background:#B9A544" title="46~90일 · 24개"></div><div class="seg" style="width:35.938%;background:#D5843A" title="91~180일 · 23개"></div><div class="seg" style="width:10.938%;background:#B8442C" title="181~365일 · 7개"></div><div class="seg" style="width:4.688%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>64개 · 0.28억</span><span class="avg">평균 114일 · 45일 초과 89%</span></div></div></div><div class="srow hot"><div class="sname">현대아울렛 가산점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:1.639%;background:#1F6F5C" title="45일 이하 · 1개"></div><div class="seg" style="width:14.754%;background:#B9A544" title="46~90일 · 9개"></div><div class="seg" style="width:68.852%;background:#D5843A" title="91~180일 · 42개"></div><div class="seg" style="width:9.836%;background:#B8442C" title="181~365일 · 6개"></div><div class="seg" style="width:4.918%;background:#7E2A22" title="1~2년 · 3개"></div></div><div class="sfoot"><span>61개 · 0.13억</span><span class="avg">평균 143일 · 45일 초과 98%</span></div></div></div><div class="srow "><div class="sname">현대프리미엄아울렛 대전점(오프웍스)</div><div class="sbar"><div class="stack"><div class="seg" style="width:61.017%;background:#1F6F5C" title="45일 이하 · 36개"></div><div class="seg" style="width:38.983%;background:#B9A544" title="46~90일 · 23개"></div></div><div class="sfoot"><span>59개 · 0.07억</span><span class="avg">평균 45일 · 45일 초과 39%</span></div></div></div><div class="srow warm"><div class="sname">현대시티아울렛 동대문점(바쉬)</div><div class="sbar"><div class="stack"><div class="seg" style="width:30.909%;background:#1F6F5C" title="45일 이하 · 17개"></div><div class="seg" style="width:10.909%;background:#B9A544" title="46~90일 · 6개"></div><div class="seg" style="width:54.545%;background:#D5843A" title="91~180일 · 30개"></div><div class="seg" style="width:3.636%;background:#B8442C" title="181~365일 · 2개"></div></div><div class="sfoot"><span>55개 · 0.14억</span><span class="avg">평균 94일 · 45일 초과 69%</span></div></div></div><div class="srow hot"><div class="sname">롯데백화점 탑스 군산점</div><div class="sbar"><div class="stack"><div class="seg" style="width:12.500%;background:#1F6F5C" title="45일 이하 · 6개"></div><div class="seg" style="width:12.500%;background:#B9A544" title="46~90일 · 6개"></div><div class="seg" style="width:75.000%;background:#D5843A" title="91~180일 · 36개"></div></div><div class="sfoot"><span>48개 · 0.10억</span><span class="avg">평균 110일 · 45일 초과 88%</span></div></div></div><div class="srow hot"><div class="sname">롯데백화점 탑스 센텀시티점</div><div class="sbar"><div class="stack"><div class="seg" style="width:2.174%;background:#1F6F5C" title="45일 이하 · 1개"></div><div class="seg" style="width:97.826%;background:#D5843A" title="91~180일 · 45개"></div></div><div class="sfoot"><span>46개 · 0.08억</span><span class="avg">평균 133일 · 45일 초과 98%</span></div></div></div><div class="srow "><div class="sname">현대아울렛 송도점(오프웍스)</div><div class="sbar"><div class="stack"><div class="seg" style="width:100.000%;background:#1F6F5C" title="45일 이하 · 45개"></div></div><div class="sfoot"><span>45개 · 0.05억</span><span class="avg">평균 24일 · 45일 초과 0%</span></div></div></div></div>
 </section>
 
 <section>
-  <div class="shead"><span class="idx">D</span><h3>원칙 2 — 45일 미판매 회수 대상</h3>
-    <p>매장 입고 후 45일이 지나도록 판매되지 않은 재고입니다.</p></div>
-  <div class="nscards"><div class="nsc key"><div class="nsk">매장 체류 45일 초과 — 회수 대상</div><div class="nsv">7.6<span>억</span></div><div class="nsgauge"><span style="width:73.5%"></span></div><div class="nsm">1,695개 · 추적 재고의 74% · 19개 매장</div></div></div>
+  <div class="shead"><span class="idx">E</span><h3>브랜드별 묶인 금액</h3>
+    <p>위치 추적 대상 기준 상위 10개 브랜드.</p></div>
+  <div class="card">
+    <table>
+      <thead><tr><th>브랜드</th><th class="n">수량</th><th>재고 금액</th>
+        <th class="n">평균 체류일</th><th class="n">45일 초과</th></tr></thead>
+      <tbody><tr><td>톰브라운</td><td class="n">332</td><td class="bar"><span style="width:100.0%"></span><em>1.8억</em></td><td class="n red">181일</td><td class="n red">93%</td></tr><tr><td>프라다</td><td class="n">97</td><td class="bar"><span style="width:83.6%"></span><em>1.5억</em></td><td class="n red">153일</td><td class="n ">71%</td></tr><tr><td>버버리</td><td class="n">127</td><td class="bar"><span style="width:46.5%"></span><em>0.82억</em></td><td class="n ">116일</td><td class="n ">65%</td></tr><tr><td>생로랑</td><td class="n">70</td><td class="bar"><span style="width:36.2%"></span><em>0.64억</em></td><td class="n red">171일</td><td class="n ">67%</td></tr><tr><td>페라가모</td><td class="n">122</td><td class="bar"><span style="width:31.0%"></span><em>0.55억</em></td><td class="n red">273일</td><td class="n red">95%</td></tr><tr><td>보테가베네타</td><td class="n">70</td><td class="bar"><span style="width:30.5%"></span><em>0.54억</em></td><td class="n red">192일</td><td class="n ">81%</td></tr><tr><td>구찌</td><td class="n">41</td><td class="bar"><span style="width:28.7%"></span><em>0.51억</em></td><td class="n ">114일</td><td class="n ">80%</td></tr><tr><td>스톤아일랜드</td><td class="n">109</td><td class="bar"><span style="width:26.1%"></span><em>0.46억</em></td><td class="n ">68일</td><td class="n ">42%</td></tr><tr><td>몽클레르</td><td class="n">36</td><td class="bar"><span style="width:21.3%"></span><em>0.38억</em></td><td class="n ">19일</td><td class="n ">11%</td></tr><tr><td>펜디</td><td class="n">26</td><td class="bar"><span style="width:12.9%"></span><em>0.23억</em></td><td class="n ">139일</td><td class="n ">73%</td></tr></tbody>
+    </table>
+  </div>
 </section>
 
+<div class="part">
+  <span class="pnum">04</span>
+  <div><h2 class="pttl2">원칙 2 위배 — 오프 비중 50% 초과</h2><p>재고 절반 이상이 매장에 나가 있어 온라인 판매·행사 대응이 불가능한 재고.</p></div>
+</div>
+
 <section>
-  <div class="shead"><span class="idx">E</span><h3>원칙 1 — 오프 비중 50% 초과 재고</h3>
+  <div class="shead"><span class="idx">F</span><h3>오프 비중 50% 초과 재고</h3>
     <p>재고 절반 이상이 매장에 나가 있으면 온라인 판매·행사 대응이 불가능합니다.</p></div>
   <div class="facts">
     <div class="fact">
@@ -316,17 +356,10 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   </div>
 </section>
 
-<section>
-  <div class="shead"><span class="idx">F</span><h3>브랜드별 묶인 금액</h3>
-    <p>위치 추적 대상 기준 상위 10개 브랜드.</p></div>
-  <div class="card">
-    <table>
-      <thead><tr><th>브랜드</th><th class="n">수량</th><th>재고 금액</th>
-        <th class="n">평균 체류일</th><th class="n">45일 초과</th></tr></thead>
-      <tbody><tr><td>톰브라운</td><td class="n">332</td><td class="bar"><span style="width:100.0%"></span><em>1.8억</em></td><td class="n red">181일</td><td class="n red">93%</td></tr><tr><td>프라다</td><td class="n">97</td><td class="bar"><span style="width:83.6%"></span><em>1.5억</em></td><td class="n red">153일</td><td class="n ">71%</td></tr><tr><td>버버리</td><td class="n">127</td><td class="bar"><span style="width:46.5%"></span><em>0.82억</em></td><td class="n ">116일</td><td class="n ">65%</td></tr><tr><td>생로랑</td><td class="n">70</td><td class="bar"><span style="width:36.2%"></span><em>0.64억</em></td><td class="n red">171일</td><td class="n ">67%</td></tr><tr><td>페라가모</td><td class="n">122</td><td class="bar"><span style="width:31.0%"></span><em>0.55억</em></td><td class="n red">273일</td><td class="n red">95%</td></tr><tr><td>보테가베네타</td><td class="n">70</td><td class="bar"><span style="width:30.5%"></span><em>0.54억</em></td><td class="n red">192일</td><td class="n ">81%</td></tr><tr><td>구찌</td><td class="n">41</td><td class="bar"><span style="width:28.7%"></span><em>0.51억</em></td><td class="n ">114일</td><td class="n ">80%</td></tr><tr><td>스톤아일랜드</td><td class="n">109</td><td class="bar"><span style="width:26.1%"></span><em>0.46억</em></td><td class="n ">68일</td><td class="n ">42%</td></tr><tr><td>몽클레르</td><td class="n">36</td><td class="bar"><span style="width:21.3%"></span><em>0.38억</em></td><td class="n ">19일</td><td class="n ">11%</td></tr><tr><td>펜디</td><td class="n">26</td><td class="bar"><span style="width:12.9%"></span><em>0.23억</em></td><td class="n ">139일</td><td class="n ">73%</td></tr></tbody>
-    </table>
-  </div>
-</section>
+<div class="part">
+  <span class="pnum">05</span>
+  <div><h2 class="pttl2">대응</h2><p>회수 정책과 실행 과제.</p></div>
+</div>
 
 <section>
   <div class="shead"><span class="idx">G</span><h3>오프라인 재고 회수 정책</h3>
@@ -415,9 +448,9 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   (2,305개 / 24개 매장). 오프라인 재고 총량
   21,837개 가운데 위치·체류일 추적이 가능한 범위는 수량 기준
   11%, 금액 기준 32%로,
-  체류일·원칙 2 관련 수치는 이 범위에 한합니다. 원칙 2의 '45일 연속 미판매'는 매장별 판매일자
+  체류일·원칙 1 관련 수치는 이 범위에 한합니다. 원칙 1의 '45일 연속 미판매'는 매장별 판매일자
   로그가 없어 매장 입고 후 경과일(현재까지 판매되지 않고 남아 있는 기간)로 산정했습니다.
-  원칙 1의 오프 비중은 모델 단위 오프라인재고 ÷ 총재고로 계산했으며, 무판매 집계는
+  원칙 2의 오프 비중은 모델 단위 오프라인재고 ÷ 총재고로 계산했으며, 무판매 집계는
   전체 오프라인 보유 모델을 대상으로 합니다.
 </div>
 
