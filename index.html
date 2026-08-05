@@ -5,7 +5,7 @@
 <meta name="description" content="오프라인(백화점·위탁) 재고 체류일과 회수 정책 기준 현황 리포트. 기준일 2026-08-05.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="오프라인 재고 정체 현황">
-<meta property="og:description" content="45일 초과 정체 75%, 오프 비중 50% 초과 1,742개 모델. 회수 정책 기준 현황 리포트.">
+<meta property="og:description" content="45일 초과 정체 75%, 신규 입고 주력 상품의 오프라인 직행 사례 포함.">
 <meta name="theme-color" content="#131A22">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23131A22'/%3E%3Crect x='7' y='19' width='18' height='5' rx='1' fill='%231F6F5C'/%3E%3Crect x='7' y='12' width='18' height='5' rx='1' fill='%23D5843A'/%3E%3Crect x='7' y='5' width='18' height='5' rx='1' fill='%23B8442C'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
@@ -117,6 +117,35 @@ td.bar em{font-style:normal;font-size:12.5px;color:var(--mut);
 .fact .k{font-size:13px;font-weight:650;margin-top:8px}
 .fact .s{font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.55}
 
+td.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:#3A4550}
+.verdict{border-left:4px solid var(--hot);background:#FDF4F1;padding:15px 18px;
+  font-size:13.5px;line-height:1.65;border-radius:2px}
+.verdict b{display:block;font-size:15.5px;font-weight:750;letter-spacing:-.02em;
+  margin-bottom:5px;color:#8C2F1C}
+
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.pc{margin:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:#fff}
+.pcimg{position:relative;background:#F4F6F8;aspect-ratio:1/1;display:flex;
+  align-items:center;justify-content:center}
+.pcimg img{width:100%;height:100%;object-fit:contain;display:block}
+.pcday{display:inline-block;margin-top:7px;background:var(--ink);color:#fff;font-size:10.5px;
+  font-weight:700;padding:2px 7px;border-radius:2px;letter-spacing:-.01em;white-space:nowrap}
+.pc figcaption{padding:13px 14px 14px}
+.pcbrand{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--mut)}
+.pccode{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  margin-top:3px;color:var(--ink);word-break:break-all}
+.pcstats{display:flex;gap:10px;margin-top:11px;border-top:1px solid #EDF1F4;padding-top:10px}
+.pcstats span{flex:1}
+.pcstats i{display:block;font-style:normal;font-size:10.5px;color:var(--mut)}
+.pcstats b{display:block;font-size:19px;font-weight:800;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;line-height:1.15}
+.pcstats .off b{color:var(--hot)}
+.pcstats .zero b{color:var(--hot)}
+.pctag{margin-top:11px;font-size:11px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;
+  display:inline-block;padding:3px 8px;border-radius:2px;
+  background:#FBEAE4;color:#8C2F1C}
+.subnote{margin-top:16px;border-top:1px solid #EDF1F4;padding-top:12px;
+  font-size:12.5px;color:var(--mut);line-height:1.65}
 .part{display:flex;align-items:flex-start;gap:16px;margin:64px 0 26px;
   padding-top:20px;border-top:3px solid var(--ink)}
 .part:first-of-type{margin-top:38px}
@@ -187,6 +216,7 @@ ol.act span{font-size:13.5px;color:var(--mut)}
 
 @media(max-width:840px){
   .kpis,.nscards,.split,.facts,.pol,.prin{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
   .tlbar{grid-template-columns:1fr}
   .srow{grid-template-columns:1fr;gap:7px}
   h1{font-size:29px} .shead p{display:none}
@@ -217,6 +247,11 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   <a class="dl" href="offline-inventory-report.pdf" download>PDF 내려받기</a>
 </header>
 
+<div class="part">
+  <span class="pnum">01</span>
+  <div><h2 class="pttl2">오프라인 재고 현황</h2><p>오프라인에 나가 있는 재고의 규모와 자금 부담.</p></div>
+</div>
+
 <div class="kpis">
   <div class="kpi"><div class="k">오프라인 재고 금액</div>
     <div class="v">31.3<span>억원</span></div>
@@ -230,11 +265,6 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   <div class="kpi alarm"><div class="k">오프 비중 50% 초과</div>
     <div class="v">1,742<span>개 모델</span></div>
     <div class="s">7,020개 · 13.1억원이 원칙 초과 상태</div></div>
-</div>
-
-<div class="part">
-  <span class="pnum">01</span>
-  <div><h2 class="pttl2">오프라인 재고 현황</h2><p>오프라인에 나가 있는 재고의 규모와 자금 부담.</p></div>
 </div>
 
 <section>
@@ -356,13 +386,32 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   </div>
 </section>
 
+<section>
+  <div class="shead"><span class="idx">G</span><h3>신규 입고 상품의 오프라인 직행</h3>
+    <p>최근 30일 내 첫 입고된 대표 상품이 온라인 노출 없이 매장으로 나간 사례입니다.</p></div>
+  <div class="card">
+    <div class="verdict warn">
+      <b>입고 한 달도 안 된 주력 상품이 곧바로 매장으로 나갔습니다.</b>
+      아래 6개 상품은 최근 5~29일 사이 처음 입고된 신상품인데,
+      입고 수량 대부분이 오프라인으로 배정됐습니다.
+      5개는 온라인 가용 재고가 0개라 온라인에서는 아예 팔 수 없는 상태입니다.
+    </div>
+    <div class="pgrid"><figure class="pc"><div class="pcimg"><img src="https://sineorb3.openhost.cafe24.com/Design/mall_2/600/PRADA/1BH204%20NZV%20F0002.jpg" alt="" loading="lazy"></div><figcaption><div class="pcbrand">프라다</div><div class="pccode">1BH204 NZV F0002</div><div class="pcday">첫 입고 14일 전</div><div class="pcstats"><span><i>총재고</i><b>3</b></span><span class="off"><i>오프라인</i><b>2</b></span><span class=""><i>온라인 가용</i><b>1</b></span></div><div class="pctag">온라인 잔여 1개</div></figcaption></figure><figure class="pc"><div class="pcimg"><img src="https://sineorb3.openhost.cafe24.com/Design/mall_2/600/PRADA/1BC167%20RV44%20F0002.jpg" alt="" loading="lazy"></div><figcaption><div class="pcbrand">프라다</div><div class="pccode">1BC167 RV44 F0002</div><div class="pcday">첫 입고 29일 전</div><div class="pcstats"><span><i>총재고</i><b>2</b></span><span class="off"><i>오프라인</i><b>2</b></span><span class="zero"><i>온라인 가용</i><b>0</b></span></div><div class="pctag">온라인 판매 불가</div></figcaption></figure><figure class="pc"><div class="pcimg"><img src="https://sineorb3.openhost.cafe24.com/Design/mall_2/600/CELINE/122652GTL%2004LU.jpg" alt="" loading="lazy"></div><figcaption><div class="pcbrand">셀린느</div><div class="pccode">122652GTL 04LU</div><div class="pcday">첫 입고 5일 전</div><div class="pcstats"><span><i>총재고</i><b>1</b></span><span class="off"><i>오프라인</i><b>1</b></span><span class="zero"><i>온라인 가용</i><b>0</b></span></div><div class="pctag">온라인 판매 불가</div></figcaption></figure><figure class="pc"><div class="pcimg"><img src="https://sineorb3.openhost.cafe24.com/Design/mall_2/600/CELINE/120722FQM%2004LU.jpg" alt="" loading="lazy"></div><figcaption><div class="pcbrand">셀린느</div><div class="pccode">120722FQM 04LU</div><div class="pcday">첫 입고 5일 전</div><div class="pcstats"><span><i>총재고</i><b>1</b></span><span class="off"><i>오프라인</i><b>1</b></span><span class="zero"><i>온라인 가용</i><b>0</b></span></div><div class="pctag">온라인 판매 불가</div></figcaption></figure><figure class="pc"><div class="pcimg"><img src="https://sineorb3.openhost.cafe24.com/Design/mall_2/600/CELINE/10P862O86%2038NO.jpg" alt="" loading="lazy"></div><figcaption><div class="pcbrand">셀린느</div><div class="pccode">10P862O86 38NO</div><div class="pcday">첫 입고 5일 전</div><div class="pcstats"><span><i>총재고</i><b>1</b></span><span class="off"><i>오프라인</i><b>1</b></span><span class="zero"><i>온라인 가용</i><b>0</b></span></div><div class="pctag">온라인 판매 불가</div></figcaption></figure><figure class="pc"><div class="pcimg"><img src="https://sineorb3.openhost.cafe24.com/Design/mall_2/600/CELINE/10D782CQH%2004LU.jpg" alt="" loading="lazy"></div><figcaption><div class="pcbrand">셀린느</div><div class="pccode">10D782CQH 04LU</div><div class="pcday">첫 입고 5일 전</div><div class="pcstats"><span><i>총재고</i><b>1</b></span><span class="off"><i>오프라인</i><b>1</b></span><span class="zero"><i>온라인 가용</i><b>0</b></span></div><div class="pctag">온라인 판매 불가</div></figcaption></figure></div>
+    <div class="subnote">
+      가용 0개 상품은 정책 4-1(가용 0개 즉시 회수)에도 동시에 해당합니다.
+      신상품이 판매 데이터를 만들기 전에 매장으로 빠지면 온라인 반응을 측정할 기회 자체가 사라지고,
+      45일 회수 시점까지 회전 없이 묶입니다.
+    </div>
+  </div>
+</section>
+
 <div class="part">
   <span class="pnum">05</span>
   <div><h2 class="pttl2">대응</h2><p>회수 정책과 실행 과제.</p></div>
 </div>
 
 <section>
-  <div class="shead"><span class="idx">G</span><h3>오프라인 재고 회수 정책</h3>
+  <div class="shead"><span class="idx">H</span><h3>오프라인 재고 회수 정책</h3>
     <p>수량·기간 두 축으로 회수 요건을 정의하고, 대체 상품 입고를 전제로 운영합니다.</p></div>
 
   <div class="pol">
@@ -423,7 +472,7 @@ ol.act span{font-size:13.5px;color:var(--mut)}
 </section>
 
 <section>
-  <div class="shead"><span class="idx">H</span><h3>제안</h3></div>
+  <div class="shead"><span class="idx">I</span><h3>제안</h3></div>
   <div class="card">
     <ol class="act">
       <li><b>180일 이상 551개(2.8억원) 강제 회수 즉시 착수</b>
@@ -450,7 +499,8 @@ ol.act span{font-size:13.5px;color:var(--mut)}
   11%, 금액 기준 32%로,
   체류일·원칙 1 관련 수치는 이 범위에 한합니다. 원칙 1의 '45일 연속 미판매'는 매장별 판매일자
   로그가 없어 매장 입고 후 경과일(현재까지 판매되지 않고 남아 있는 기간)로 산정했습니다.
-  원칙 2의 오프 비중은 모델 단위 오프라인재고 ÷ 총재고로 계산했으며, 무판매 집계는
+  원칙 2의 오프 비중은 모델 단위 오프라인재고 ÷ 총재고로 계산했으며, 신규 입고 판정은
+  1번 시트 입고이력(I열)의 최초 입고 경과일을 기준으로 했습니다. 무판매 집계는
   전체 오프라인 보유 모델을 대상으로 합니다.
 </div>
 
